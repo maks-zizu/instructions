@@ -1,0 +1,6 @@
+- `const { faker } = require('@faker-js/faker');` https://fakerjs.dev/api/commerce.html
+- `const readlineSync = require('readline-sync');`
+- `const player = require('play-sound')((opts = {}));`
+
+https://picsum.photos/
+https://placeholder.com/
