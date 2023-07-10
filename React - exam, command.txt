@@ -6,12 +6,12 @@
 
 папка /src / feachers
 	/ users
-		/ types / User.ts + UserState.ts + UserAction.ts (exptp)
-		/ redux / usersReducer.ts  (rxreducer)
+		/ types / User.ts + UserState.ts + UserAction.ts ( exptp )
+		/ redux / usersReducer.ts  ( rxreducer )
 файл /src / store.ts - import usersReducer
 --------------------
 ОТРИСОВКА КОМПОНЕНТА
-	/ users / UsersList.tsx + UserItem.tsx (rfce)
+	/ users / UsersList.tsx + UserItem.tsx ( rfce )
 / App.tsx
 -----------------
 УДАЛЕНИЕ 1 ЭЛЕМЕНТА ИЗ КОМПОНЕНТА
