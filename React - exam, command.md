@@ -250,9 +250,9 @@ const onHandleChAdmin: React.ChangeEventHandler<HTMLInputElement> = (
     body: JSON.stringify({ isAdmin: e.target.checked }),
   })
     .then((res) => res.json())
-    .then((data) => {
-      dispatch({ type: 'users/changeAdminStatus', payload: data });
-    })
+    .then((data) =>
+      dispatch({ type: 'users/changeAdminStatus', payload: data })
+    )
     .catch((error) => console.log(error));
 };
 ```
