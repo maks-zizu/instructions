@@ -3,6 +3,7 @@
 3. index.routes.js '/api/users' + users.routes.js (delete, post, put)
 
 `find . -name "node_modules" -exec rm -rf "{}" \;` Скрипт для удаления node_modules рекурсивно:
+
 --------------------
 __ТИПИЗАЦИЯ + REDUX__
 папка /src / feachers
@@ -10,14 +11,17 @@ __ТИПИЗАЦИЯ + REDUX__
 		/ types / User.ts + UserState.ts + UserAction.ts ( exptp )
 		/ redux / usersReducer.ts  ( rxreducer )
 файл /src / store.ts - import usersReducer
+
 --------------------
 __ОТРИСОВКА КОМПОНЕНТА__
 	/ users / UsersList.tsx + UserItem.tsx ( rfce )
 / App.tsx
+
 -----------------
 __УДАЛЕНИЕ 1 ЭЛЕМЕНТА ИЗ КОМПОНЕНТА__
 	/ users / types / UserAction.ts   + action
 	/ users / UserItem.tsx   + button + fn
+
 -----------------
 __ИЗМЕНЕНИЕ 1 ПОЛЯ isAdmin__
 	/ users / types / UserAction.ts   + action
@@ -35,11 +39,13 @@ export type User = {
     isAdmin: boolean;
   };
  export type UserId = User['id'];
+
 ----------------
 UserState.ts  (exptp)
 export type UsersState = {
   users: User[];
 };
+
 ---------------
 UserAction.ts  (exptp)
 export type UserAction =
@@ -47,6 +53,7 @@ export type UserAction =
   | { type: 'users/remove'; payload: UserId }
   | { type: 'users/add'; payload: User }
   | { type: 'users/changeAdminStatus'; payload: UserId };
+
 ---------------
 usersReducer.ts  (rxreducer)
 const initialState: UsersState = {
@@ -85,6 +92,7 @@ export default function usersReducer(
       return state;
   }
 }
+
 ---------------
 store.ts
 import usersReducer
@@ -93,6 +101,7 @@ const store = createStore(
   combineReducers({ users: usersReducer }),
   composeWithDevTools()
 );
+
 ---------------
 __UsersList.tsx (rfce) ОТРИСОВКА КОМПОНЕНТА__
 function UsersList(): JSX.Element {
@@ -106,6 +115,7 @@ function UsersList(): JSX.Element {
     </div>
   );
 }
+
 ---------------
 __UserItem.tsx (rfce) ОТРИСОВКА КОМПОНЕНТА__
 function UserItem({ user }: { user: User }): JSX.Element {
@@ -117,6 +127,7 @@ function UserItem({ user }: { user: User }): JSX.Element {
     </div>
   );
 }
+
 ---------------
 __App.tsx ОТРИСОВКА КОМПОНЕНТА__
 function App(): JSX.Element {
@@ -134,6 +145,7 @@ function App(): JSX.Element {
     </div>
   );
 }
+
 ---------------
 UserItem.tsx  УДАЛЕНИЕ 1 ЭЛЕМЕНТА ИЗ КОМПОНЕНТА
 
