@@ -232,7 +232,7 @@ const onHandleRemove = (): Promise<void> => {
 
 ---
 
-***ИЗМЕНЕНИЕ 1 ПОЛЯ isAdmin**
+**ИЗМЕНЕНИЕ 1 ПОЛЯ isAdmin**
 
 1. UserItem.tsx
 
