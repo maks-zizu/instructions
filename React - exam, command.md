@@ -207,6 +207,7 @@ function UserItem({ user }: { user: User }): JSX.Element {
 
 ```tsx
 // доб. кнопку с обработчиком onClick
+
 <button type="button" onClick={onHandleRemove}>
   Delete
 </button>;
@@ -214,12 +215,13 @@ function UserItem({ user }: { user: User }): JSX.Element {
 // смотрим бэк -
 // если data.message - тогда в payload: user.id
 // если data.id - тогда payload: data.id (приходит как строка а не число)   ... и т.д.
+
 const onHandleRemove = (): Promise<void> => {
   fetch(`/api/users/${value}`, { method: 'DELETE' })
     .then((res) => res.json())
     .then((data) => {
-      // смотря что на бэке - можно не использовать условие
       if (data.message === 'success') {
+        // смотря что на бэке - можно не использовать условие
         dispatch({ type: 'users/remove', payload: user.id });
       }
     })
@@ -235,6 +237,7 @@ const onHandleRemove = (): Promise<void> => {
 
 ```tsx
 // доб. инпут с обработчиком onChange
+
 <input type="checkbox" checked={user.isAdmin} onChange={onHandleChAdmin} />;
 
 // Если на бэке есть req.body(isAdmin) + res.json(user);
