@@ -3,22 +3,23 @@
 3. index.routes.js '/api/users' + users.routes.js (delete, post, put)
 
 `find . -name "node_modules" -exec rm -rf "{}" \;` Скрипт для удаления node_modules рекурсивно:
-
+--------------------
+__ТИПИЗАЦИЯ + REDUX__
 папка /src / feachers
 	/ users
 		/ types / User.ts + UserState.ts + UserAction.ts ( exptp )
 		/ redux / usersReducer.ts  ( rxreducer )
 файл /src / store.ts - import usersReducer
 --------------------
-ОТРИСОВКА КОМПОНЕНТА
+__ОТРИСОВКА КОМПОНЕНТА__
 	/ users / UsersList.tsx + UserItem.tsx ( rfce )
 / App.tsx
 -----------------
-УДАЛЕНИЕ 1 ЭЛЕМЕНТА ИЗ КОМПОНЕНТА
+__УДАЛЕНИЕ 1 ЭЛЕМЕНТА ИЗ КОМПОНЕНТА__
 	/ users / types / UserAction.ts   + action
 	/ users / UserItem.tsx   + button + fn
 -----------------
-ИЗМЕНЕНИЕ 1 ПОЛЯ isAdmin
+__ИЗМЕНЕНИЕ 1 ПОЛЯ isAdmin__
 	/ users / types / UserAction.ts   + action
 	/ users / UserItem.tsx   + button + fn
 
@@ -93,7 +94,7 @@ const store = createStore(
   composeWithDevTools()
 );
 ---------------
-UsersList.tsx (rfce) ОТРИСОВКА КОМПОНЕНТА
+__UsersList.tsx (rfce) ОТРИСОВКА КОМПОНЕНТА__
 function UsersList(): JSX.Element {
   const { users } = useSelector((store: RootState) => store.users);
 
@@ -106,7 +107,7 @@ function UsersList(): JSX.Element {
   );
 }
 ---------------
-UserItem.tsx (rfce) ОТРИСОВКА КОМПОНЕНТА
+__UserItem.tsx (rfce) ОТРИСОВКА КОМПОНЕНТА__
 function UserItem({ user }: { user: User }): JSX.Element {
   return (
     <div>
@@ -117,7 +118,7 @@ function UserItem({ user }: { user: User }): JSX.Element {
   );
 }
 ---------------
-App.tsx ОТРИСОВКА КОМПОНЕНТА
+__App.tsx ОТРИСОВКА КОМПОНЕНТА__
 function App(): JSX.Element {
   const dispatch = useDispatch();
 
