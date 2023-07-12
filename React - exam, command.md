@@ -145,7 +145,7 @@ composeWithDevTools()
 
 ## **ОТРИСОВКА КОМПОНЕНТА**
 
-1. App.tsx
+**1. App.tsx**
 
 ```tsx
 function App(): JSX.Element {
@@ -167,7 +167,7 @@ function App(): JSX.Element {
 
 ---
 
-2. UsersList.tsx (`rfce`)
+**2. UsersList.tsx (`rfce`)**
 
 ```tsx
 function UsersList(): JSX.Element {
@@ -185,7 +185,7 @@ function UsersList(): JSX.Element {
 
 ---
 
-3. UserItem.tsx (`rfce`)
+**3. UserItem.tsx (`rfce`)**
 
 ```tsx
 function UserItem({ user }: { user: User }): JSX.Element {
@@ -203,7 +203,7 @@ function UserItem({ user }: { user: User }): JSX.Element {
 
 ## **УДАЛЕНИЕ ЭЛЕМЕНТА ИЗ КОМПОНЕНТА**
 
-1. UserItem.tsx
+**1. UserItem.tsx**
 
 ```tsx
 // доб. кнопку с обработчиком onClick
@@ -231,7 +231,7 @@ const onHandleRemove = (): Promise<void> => {
 
 ## **ИЗМЕНЕНИЕ поля isAdmin**
 
-1. UserItem.tsx
+**1. UserItem.tsx**
 
 ```tsx
 // доб. инпут с обработчиком onChange
@@ -259,7 +259,7 @@ const onHandleChAdmin: React.ChangeEventHandler<HTMLInputElement> = (
 
 ## **ДОБАВЛЕНИЕ ЭЛЕМЕНТА**
 
-1. FormAddUser.tsx (`exptp`)
+**1. FormAddUser.tsx (`exptp`)**
 
 ```tsx
 function FormAddUser(): JSX.Element {
