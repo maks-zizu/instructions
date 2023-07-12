@@ -105,25 +105,29 @@ export default function usersReducer(
         ...state,
         users: action.payload,
       };
+
     case 'users/remove':
       return {
         ...state,
-        users: state.users.filter((user) => user.id !== action.payload),
+        users: state.users.filter((user) => user.id !== +action.payload),
       };
+
     case 'users/add':
       return {
         ...state,
         users: [...state.users, action.payload],
       };
+
     case 'users/changeAdminStatus':
       return {
         ...state,
         users: state.users.map((user) =>
-          user.id === action.payload
+          user.id === +action.payload
             ? { ...user, isAdmin: !user.isAdmin }
             : user
         ),
       };
+
     default:
       return state;
   }
@@ -228,7 +232,7 @@ const onHandleRemove = (): Promise<void> => {
 
 ---
 
-**\*ИЗМЕНЕНИЕ 1 ПОЛЯ isAdmin**
+***ИЗМЕНЕНИЕ 1 ПОЛЯ isAdmin**
 
 1. UserItem.tsx
 
