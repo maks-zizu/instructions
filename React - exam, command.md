@@ -34,17 +34,11 @@
 
 ---
 
-**УДАЛЕНИЕ 1 ЭЛЕМЕНТА ИЗ КОМПОНЕНТА**
+**УДАЛЕНИЕ /ИЗМЕНЕНИЕ /ДОБАВЛЕНИЕ ЭЛЕМЕНТА ИЗ КОМПОНЕНТА**
 
     / users / types / UserAction.ts + action
     / users / UserItem.tsx + button + fn
-
----
-
-**ИЗМЕНЕНИЕ 1 ПОЛЯ isAdmin**
-
-    / users / types / UserAction.ts + action
-    / users / UserItem.tsx + button + fn
+    / users / FormAddUser.tsx + form + input + fn
 
 ---
 
@@ -149,7 +143,7 @@ composeWithDevTools()
 
 ---
 
-**ОТРИСОВКА КОМПОНЕНТА**
+## **ОТРИСОВКА КОМПОНЕНТА**
 
 1. App.tsx
 
@@ -207,7 +201,7 @@ function UserItem({ user }: { user: User }): JSX.Element {
 
 ---
 
-**УДАЛЕНИЕ 1 ЭЛЕМЕНТА ИЗ КОМПОНЕНТА**
+## **УДАЛЕНИЕ ЭЛЕМЕНТА ИЗ КОМПОНЕНТА**
 
 1. UserItem.tsx
 
@@ -228,13 +222,14 @@ const onHandleRemove = (): Promise<void> => {
       if (data.message === 'success') {
         dispatch({ type: 'users/remove', payload: user.id });
       }
-    });
+    })
+    .catch((error) => console.log(error));
 };
 ```
 
 ---
 
-**ИЗМЕНЕНИЕ 1 ПОЛЯ isAdmin**
+## **ИЗМЕНЕНИЕ поля isAdmin**
 
 1. UserItem.tsx
 
@@ -257,6 +252,72 @@ const onHandleChAdmin: React.ChangeEventHandler<HTMLInputElement> = (
     .then((res) => res.json())
     .then((data) => {
       dispatch({ type: 'users/changeAdminStatus', payload: data });
-    });
+    })
+    .catch((error) => console.log(error));
 };
+```
+
+## **ДОБАВЛЕНИЕ ЭЛЕМЕНТА**
+
+1. FormAddUser.tsx (`exptp`)
+
+```tsx
+function FormAddUser(): JSX.Element {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [img, setImg] = useState('');
+
+  const dispatch = useDispatch();
+
+  const onHandleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+
+    fetch('/api/users', {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({ name, email, img }),
+    })
+      .then((res) => res.json())
+      .then((data) => dispatch({ type: 'users/add', payload: data }))
+      .catch((error) => console.log(error));
+
+    setName('');
+    setEmail('');
+    setImg('');
+  };
+
+  return (
+    <form onSubmit={onHandleSubmit}>
+      <p>Add user</p>
+      <p>
+        <input
+          type="text"
+          placeholder="name"
+          required
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </p>
+      <p>
+        <input
+          type="text"
+          placeholder="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </p>
+      <p>
+        <input
+          type="text"
+          placeholder="url image"
+          required
+          value={img}
+          onChange={(e) => setImg(e.target.value)}
+        />
+      </p>
+      <button type="submit">save</button>
+    </form>
+  );
+}
 ```
