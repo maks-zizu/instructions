@@ -217,14 +217,16 @@ function UserItem({ user }: { user: User }): JSX.Element {
   Delete
 </button>;
 
-// смотрим бэк - data.message или data.id или еще что
+// смотрим бэк -
+// если data.message - тогда в payload: user.id
+// если data.id - тогда payload: data.id (приходит как строка а не число)   ... и т.д.
 const onHandleRemove = (): Promise<void> => {
   fetch(`/api/users/${value}`, { method: 'DELETE' })
     .then((res) => res.json())
     .then((data) => {
+      // смотря что на бэке - можно не использовать условие
       if (data.message === 'success') {
-        // смотря что на бэке - можно не использовать условие
-        dispatch({ type: 'users/remove', payload: data.id }); // data.id приходит как строка
+        dispatch({ type: 'users/remove', payload: user.id });
       }
     });
 };
