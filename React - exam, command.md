@@ -1,64 +1,100 @@
-1. npm i front+back
+1. `npm i` front+back
 2. DB create/migrate/seed
-3. index.routes.js '/api/users' + users.routes.js (delete, post, put)
+3. index.routes.js '/api/users' + users.routes.js (смотрим body/data, delete, post, put)
+4. папка `.vscode` -> `settings.json`
+   ```json
+   {
+     "eslint.workingDirectories": ["client", "server"],
+     "editor.defaultFormatter": "esbenp.prettier-vscode",
+     "prettier.singleQuote": true,
+     "editor.formatOnSave": true
+   }
+   ```
+5. `find . -name "node_modules" -exec rm -rf "{}" \;` Скрипт для удаления node_modules рекурсивно
 
-`find . -name "node_modules" -exec rm -rf "{}" \;` Скрипт для удаления node_modules рекурсивно:
+---
 
---------------------
-__ТИПИЗАЦИЯ + REDUX__
-папка /src / feachers
-	/ users
-		/ types / User.ts + UserState.ts + UserAction.ts ( exptp )
-		/ redux / usersReducer.ts  ( rxreducer )
-файл /src / store.ts - import usersReducer
+# Коротко, какие действия и где:
 
---------------------
-__ОТРИСОВКА КОМПОНЕНТА__
-	/ users / UsersList.tsx + UserItem.tsx ( rfce )
-/ App.tsx
+**ТИПИЗАЦИЯ + REDUX**
 
------------------
-__УДАЛЕНИЕ 1 ЭЛЕМЕНТА ИЗ КОМПОНЕНТА__
-	/ users / types / UserAction.ts   + action
-	/ users / UserItem.tsx   + button + fn
+      папка /src / feachers
+        / users
+    1.      / types / User.ts + UserState.ts + UserAction.ts ( exptp )
+    2.      / redux / usersReducer.ts ( rxreducer )
+    3.  файл /src / store.ts - import usersReducer
 
------------------
-__ИЗМЕНЕНИЕ 1 ПОЛЯ isAdmin__
-	/ users / types / UserAction.ts   + action
-	/ users / UserItem.tsx   + button + fn
+---
 
+**ОТРИСОВКА КОМПОНЕНТА**
 
+      / App.tsx
+      / users
+    4.    / components / UsersList.tsx + UserItem.tsx ( rfce )
 
----------------
-User.ts	 (exptp)
+---
+
+**УДАЛЕНИЕ 1 ЭЛЕМЕНТА ИЗ КОМПОНЕНТА**
+
+    / users / types / UserAction.ts + action
+    / users / UserItem.tsx + button + fn
+
+---
+
+**ИЗМЕНЕНИЕ 1 ПОЛЯ isAdmin**
+
+    / users / types / UserAction.ts + action
+    / users / UserItem.tsx + button + fn
+
+---
+
+# Подробно код:
+
+**User.ts (`exptp`)**
+
+```ts
 export type User = {
-    id: number;
-    name: string;
-    email: string;
-    img: string;
-    isAdmin: boolean;
-  };
- export type UserId = User['id'];
+  id: number;
+  name: string;
+  email: string;
+  img: string;
+  isAdmin: boolean;
+};
 
-----------------
-UserState.ts  (exptp)
+export type UserId = User['id'];
+```
+
+---
+
+**UserState.ts (`exptp`)**
+
+```ts
 export type UsersState = {
   users: User[];
 };
+```
 
----------------
-UserAction.ts  (exptp)
+---
+
+**UserAction.ts (`exptp`)**
+
+```ts
 export type UserAction =
-  | { type: 'users/load'; payload: User[] } отрисовка компонента
+  | { type: 'users/load'; payload: User[] }
   | { type: 'users/remove'; payload: UserId }
   | { type: 'users/add'; payload: User }
   | { type: 'users/changeAdminStatus'; payload: UserId };
+```
 
----------------
-usersReducer.ts  (rxreducer)
+---
+
+**usersReducer.ts (`rxreducer`)**
+
+```ts
 const initialState: UsersState = {
   users: [],
 };
+
 export default function usersReducer(
   state: UsersState = initialState,
   action: UserAction
@@ -92,44 +128,28 @@ export default function usersReducer(
       return state;
   }
 }
+```
 
----------------
-store.ts
-import usersReducer
-// вписать в combineReducers
+---
+
+**store.ts**
+
+```ts
+import usersReducer // импортировать и вписать в combineReducers
+
 const store = createStore(
-  combineReducers({ users: usersReducer }),
-  composeWithDevTools()
+combineReducers({ users: usersReducer }),
+composeWithDevTools()
 );
+```
 
----------------
-__UsersList.tsx (rfce) ОТРИСОВКА КОМПОНЕНТА__
-function UsersList(): JSX.Element {
-  const { users } = useSelector((store: RootState) => store.users);
+---
 
-  return (
-    <div>
-      {users.map((user) => (
-        <UserItem key={user.id} user={user} />
-      ))}
-    </div>
-  );
-}
+**ОТРИСОВКА КОМПОНЕНТА**
 
----------------
-__UserItem.tsx (rfce) ОТРИСОВКА КОМПОНЕНТА__
-function UserItem({ user }: { user: User }): JSX.Element {
-  return (
-    <div>
-      <h2>{user.name}</h2>
-      <p>{user.email}</p>
-      <img src={user.img} alt="user" />
-    </div>
-  );
-}
+1. App.tsx
 
----------------
-__App.tsx ОТРИСОВКА КОМПОНЕНТА__
+```tsx
 function App(): JSX.Element {
   const dispatch = useDispatch();
 
@@ -145,43 +165,92 @@ function App(): JSX.Element {
     </div>
   );
 }
+```
 
----------------
-UserItem.tsx  УДАЛЕНИЕ 1 ЭЛЕМЕНТА ИЗ КОМПОНЕНТА
+---
 
- +    <button type="button" onClick={() => onHandleRemove(user.id)}>
-        Delete
-      </button>
+2. UsersList.tsx (`rfce`)
 
- +  const onHandleRemove = async (value: UserId): Promise<void> => {
-      const res = await fetch(`/api/users/${value}`, {
-        method: 'DELETE',
-      });
+```tsx
+function UsersList(): JSX.Element {
+  const { users } = useSelector((store: RootState) => store.users);
 
-      const data = await res.json();
-      if (data.message === 'success') {
-        dispatch({ type: 'users/remove', payload: value });
-      }
-    };
-
----------------
-UserItem.tsx  ИЗМЕНЕНИЕ 1 ПОЛЯ isAdmin
- +    <input
-        type="checkbox"
-        checked={user.isAdmin}
-        onChange={onHandleChAdmin}
-      />
+  return (
+    <div>
+      {users.map((user) => (
+        <UserItem key={user.id} user={user} />
+      ))}
     </div>
+  );
+}
+```
 
-На бэке   res.json(user);	->передаем в	body: JSON.stringify({ user })
-message - нет
- +  const onHandleChAdmin = async (): Promise<void> => {
-      const res = await fetch(`/api/users/${user.id}`, {
-        method: 'PUT',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({ user }),
-      });
+---
 
-      const data = await res.json();
+3. UserItem.tsx (`rfce`)
+
+```tsx
+function UserItem({ user }: { user: User }): JSX.Element {
+  return (
+    <div>
+      <h2>{user.name}</h2>
+      <p>{user.email}</p>
+      <img src={user.img} alt="user" />
+    </div>
+  );
+}
+```
+
+---
+
+**УДАЛЕНИЕ 1 ЭЛЕМЕНТА ИЗ КОМПОНЕНТА**
+
+1. UserItem.tsx
+
+```tsx
+// доб. кнопку с обработчиком onClick
+<button type="button" onClick={onHandleRemove}>
+  Delete
+</button>;
+
+// смотрим бэк - data.message или data.id или еще что
+const onHandleRemove = (): Promise<void> => {
+  fetch(`/api/users/${value}`, { method: 'DELETE' })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.message === 'success') {
+        // смотря что на бэке - можно не использовать условие
+        dispatch({ type: 'users/remove', payload: data.id }); // data.id приходит как строка
+      }
+    });
+};
+```
+
+---
+
+**\*ИЗМЕНЕНИЕ 1 ПОЛЯ isAdmin**
+
+1. UserItem.tsx
+
+```tsx
+// доб. инпут с обработчиком onChange
+<input type="checkbox" checked={user.isAdmin} onChange={onHandleChAdmin} />;
+
+// Если на бэке есть req.body(isAdmin) + res.json(user);
+// -> передаем в          body: JSON.stringify({ isAdmin: e.target.checked }),
+// ? был и такой вариант  body: JSON.stringify({ user })
+
+const onHandleChAdmin: React.ChangeEventHandler<HTMLInputElement> = (
+  e
+): Promise<void> => {
+  fetch(`/api/users/${user.id}`, {
+    method: 'PUT',
+    headers: { 'Content-type': 'application/json' },
+    body: JSON.stringify({ isAdmin: e.target.checked }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
       dispatch({ type: 'users/changeAdminStatus', payload: data });
-    };
+    });
+};
+```
