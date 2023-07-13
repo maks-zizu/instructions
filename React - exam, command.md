@@ -4,15 +4,17 @@
 4. папка `.vscode` -> `settings.json`
    ```json
    {
-     "eslint.workingDirectories": ["client", "server"],
-     "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "eslint.workingDirectories": ["backend", "frontend"],
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
 
-     "prettier.singleQuote": true,
-     "editor.formatOnSave": true
+    "prettier.singleQuote": true,
+    "prettier.tabWidth": 2,
+    "prettier.useTabs": false,
+    "editor.formatOnSave": true
    }
    ```
 5. `find . -name "node_modules" -exec rm -rf "{}" \;` Скрипт для удаления node_modules рекурсивно
-6. Снипеты из расширения Simple React Snippets
+6. Снипеты из расширения Simple React Snippets и ES7+ React/Redux/React-Native snippets
 7. Проверить наличие `store.ts`! Он уже есть
 ---
 
