@@ -6,15 +6,18 @@
    {
      "eslint.workingDirectories": ["client", "server"],
      "editor.defaultFormatter": "esbenp.prettier-vscode",
+
      "prettier.singleQuote": true,
      "editor.formatOnSave": true
    }
    ```
 5. `find . -name "node_modules" -exec rm -rf "{}" \;` Скрипт для удаления node_modules рекурсивно
-
+6. Снипеты из расширения Simple React Snippets
+7. Проверить наличие `store.ts`! Он уже есть
 ---
 
 # Коротко, какие действия и где:
+(для тренировки написания без подглядывания)
 
 **ТИПИЗАЦИЯ + REDUX**
 
