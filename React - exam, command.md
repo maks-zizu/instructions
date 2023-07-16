@@ -221,8 +221,8 @@ function UserItem({ user }: { user: User }): JSX.Element {
 // если data.message - тогда в payload: user.id
 // если data.id - тогда payload: data.id (приходит как строка а не число)   ... и т.д.
 
-const onHandleRemove = (): Promise<void> => {
-  fetch(`/api/users/${value}`, { method: 'DELETE' })
+const onHandleRemove = ():void => {
+  fetch(`/api/users/${user.id}`, { method: 'DELETE' })
     .then((res) => res.json())
     .then((data) => {
       if (data.message === 'success') {
