@@ -246,7 +246,7 @@ const onHandleRemove = ():void => {
 <input type="checkbox" checked={user.isAdmin} onChange={onHandleChAdmin} />;
 
 // Если на бэке есть req.body(isAdmin) + res.json(user);
-// -> передаем в          body: JSON.stringify({ isAdmin: e.target.checked }),
+// -> передаем в          body: JSON.stringify({ isAdmin: e.target.checked }),  payload: data.id
 // ? был и такой вариант  body: JSON.stringify({ user })
 
 const onHandleChAdmin: React.ChangeEventHandler<HTMLInputElement> = (
@@ -259,7 +259,7 @@ const onHandleChAdmin: React.ChangeEventHandler<HTMLInputElement> = (
   })
     .then((res) => res.json())
     .then((data) =>
-      dispatch({ type: 'users/changeAdminStatus', payload: data })
+      dispatch({ type: 'users/changeAdminStatus', payload: data.id })
     )
     .catch((error) => console.log(error));
 };
