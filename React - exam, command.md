@@ -23,7 +23,7 @@
 
 **ТИПИЗАЦИЯ + REDUX**
 
-      папка /src / feachers
+      папка /src / features
         / users
     1.      / types / User.ts + UserState.ts + UserAction.ts ( exptp )
     2.      / redux / usersReducer.ts ( rxreducer )
