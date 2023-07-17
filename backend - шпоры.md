@@ -6,7 +6,9 @@
 - `npm i -D eslint` // `npx eslint --init` // `eslint --init` commonjs, react, browser/node,
 
 ## Установка и подключение пакетов БД
+
 ---
+
 ## Установка и подключение пакетов - сервер
 
 ### express (app)
@@ -44,6 +46,7 @@
 - `res.write('<!DOCTYPE html>')` отправка первой строки HTML-документа, но не завершение ответа
 
 #### Express middlewares
+
 Промежуточные функции (повторяемый код).
 
 - `app.use(express.urlencoded({ extended: true }))` чтение (парсинг) данных из тела запроса (полученные из html-формы )
@@ -55,37 +58,40 @@
 - `function someMid(req, res, next) {....... next()}` создание middleware
 - `app.use(session(sessionConfig))` генерация сессий и отправка куки с id сессии на клиент (создание объекта req.session)
 
-
-
 ##### Пример кастомного метода для res (отправка компонента, ssr)
+
 // Вспомогательная функция для отправки HTML на основе React-компонента. Чтобы компонент отправить на клиента:
+
 1. `const React = require('react')` из jsx сделать React-элемент
 2. `const ReactDOMServer = require('react-dom/server')` из React-элемента сделать комфортную разметку.
 
-```
-function renderComponent(reactComponent, props = {}, options = { htmlOnly: false }) {
+```js
+function renderComponent(
+  reactComponent,
+  props = {},
+  options = { htmlOnly: false }
+) {
+  const reactElement = React.createElement(reactComponent, {
+    ...this.app.locals, // передать app.locals
+    ...this.locals, // передать res.locals
+    ...props, // передать пропсы
+  });
 
-const reactElement = React.createElement(reactComponent, {
-...this.app.locals, // передать app.locals
-...this.locals, // передать res.locals
-...props, // передать пропсы
-});
+  const html = ReactDOMServer.renderToStaticMarkup(reactElement);
 
-const html = ReactDOMServer.renderToStaticMarkup(reactElement);
-
-return options.htmlOnly ? html : `<!DOCTYPE html>${html}`
+  return options.htmlOnly ? html : `<!DOCTYPE html>${html}`;
 }
 
 function ssr(req, res, next) {
-res.renderComponent = renderComponent;
-next();
+  res.renderComponent = renderComponent;
+  next();
 }
 
 module.exports = ssr;
 ```
+
 подключить `app.use(ssr)`
 добавить в роутер `res.send(res.renderComponent(ProductItem, { product }, { doctype: false }))`
-
 
 ### nodemon
 
@@ -103,6 +109,7 @@ module.exports = ssr;
   - `app.use(morgan(ctrl + space))`
 
 ### Babel и React
+
 Babel - транспилятор, позволяет подключать jsx файлы (JavaScript, в котором можно писать HTML).(отделяет js,html... и логически связывает)
 
 - `npm i @babel/core @babel/preset-env @babel/preset-react @babel/register react react-dom` установка Babel и React
@@ -111,49 +118,46 @@ Babel - транспилятор, позволяет подключать jsx ф
 - `const ReactDOMServer = require('react-dom/server')` подключение ReactDOMServer
 - `.babelrc` создание файла конфигурации для babel в корне проекта с содержимым `{"presets": ["@babel/preset-env", "@babel/preset-react"]}`
 
-
 ### Папка components
+
 // components/Layout.jsx
 
-```
+```jsx
 const React = require('react');
 
 function Layout({ title, children }) {
-return (
-
-<html lang="en">
-<head>
-<title>{title}</title>
-<link rel="stylesheet" href="style.css" />
-<script src="script.js" />
-</head>
-<body>{children}</body>
-</html>
-);
-};
+  return (
+    <html lang="en">
+      <head>
+        <title>{title}</title>
+        <link rel="stylesheet" href="style.css" />
+        <script src="script.js" />
+      </head>
+      <body>{children}</body>
+    </html>
+  );
+}
 
 module.exports = Layout;
 ```
-```
+
+```jsx
 function Home({ title, name }) {
-return (
-<Layout title={title}>
-html
-className вместо class
-style задаётся как объект,
-</Layout>
-);
-};
+  return (
+    <Layout title={title}>
+      html className вместо class style задаётся как объект,
+    </Layout>
+  );
+}
 module.exports = Home;
 ```
 
-
-
 #### React SSR: пример ответа для GET запроса
+
 // app.js
 Отображаем главную страницу с использованием компонента "Home"
 
-```
+```js
 const ReactDOMServer = require('react-dom/server');
 const React = require('react');
 const Home = require('./components/Home');
@@ -208,6 +212,7 @@ res.end(html);
 - `const session = require('express-session')` подключение express-session
 - `const FileStore = require('session-file-store')(session)` подключение хранилища сессий
 - `const bcrypt = require('bcrypt')` подключение bcrypt
+
 ---
 
 ### AJAX, Fetch API
@@ -216,12 +221,12 @@ res.end(html);
 
 - отправка POST запроса:
 
-```
-   const response = await fetch('https://some-url.com', {
-     method: 'POST',
-     headers: {'Content-Type': 'application/json'},
-     body: JSON.stringify({myKey: 'my value'})
-   })
+```js
+const response = await fetch('https://some-url.com', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ myKey: 'my value' }),
+});
 ```
 
 - `const data = await response.json();` чтение тела ответа в JSON-формате
@@ -238,7 +243,7 @@ res.end(html);
 
 - конфигурация сессий в Express:
 
-```
+```js
    const sessionConfig = {
      store: new FileStore(),    хранилище сессий (работает с пакетом *session-file-store*)
      name: 'user_sid',    имя куки для хранения id сессии
@@ -255,25 +260,9 @@ res.end(html);
 
 ---
 
-
 ## Подключение пакетов - require (import)
 
 - `const fs = require('fs')` подключение модуля файловой системы
 - `const path = require('path')` подключение модуля для работы с путями в файловой системе
 
 ---
-
-## Array/Object clone
-
-`const arrCopy = […arr]` / `... = arr.slice()` / `... = arr.map(el => el)` поверхностное копирование массива
-`const objCopy = {...origObj}` / `... = Object.assign({}, origObj)` поверхностное копирование объекта
-
-`const deepArrCopy = JSON.parse(JSON.stringify(arr))` глубокое копирование массива
-_(копирование через JSON с оргнаичениями: не поддерживает объекты с циклическими ссылками, Map, Set, Date, RegExp и ArrayBuffer)_
-
-`const deepCopy = JSON.parse(JSON.stringify(arr))` глубокое копирование массива
-_(копирование через JSON с ограничениями: теряются значения c undefined, NaN меняется на null)_
-
-`const deepObjCopy = structuredClone(origObj)` глубокое копирование объекта (современный подход, с Node 17.0)
-
--

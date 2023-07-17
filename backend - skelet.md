@@ -9,7 +9,7 @@
   ```
 - файл `.gitignore` /sessions , .env
 - файл `package.json`
-  ```
+  ```json
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -34,7 +34,7 @@
   ```
 - `npx sequelize init`
 - папка `./db/config/database.json` (postgres) или:
-  ```
+  ```json
   {
     "development": {
       "use_env_variable": "DATABASE_URL"
@@ -51,7 +51,7 @@
   ```
 - `npx sequelize db:create` , `npx sequelize model:create --name --attributes `
   Минимум на две таблицы:
-  ```
+  ```js
     User
     `npx sequelize model:create --name User --attributes name:text,email:text,password:text`
 
@@ -59,7 +59,7 @@
     `npx sequelize model:create --name MediaPost --attributes user_id:integer,type_id:integer,title:text,image:text`
   ```
   Далее можно скелет с большим количеством таблиц
-  ```
+  ```js
     Type
     `npx sequelize model:create --name Type --attributes title:text`
 
@@ -129,7 +129,7 @@
 ### 2.2 папка components (views) ___(Layout.jsx)
 - Navbar.jsx
 - Layout.jsx
-  ```
+  ```jsx
     const React = require('react');
     const Navbar = require('./Navbar');
 
@@ -156,7 +156,7 @@
 - Reg.jsx
 - Form.jsx
 - PostItem.jsx
-  ```
+  ```jsx
     const React = require('react');
 
     function PostItem() {
@@ -168,7 +168,7 @@
     module.exports = PostItem;
   ```
 - PostsList.jsx
-  ```
+  ```jsx
     const React = require('react');
     const Layout = require('./Layout'); (подтянется)
     const PostItem = require('./PostItem'); (подтянется)
@@ -185,7 +185,7 @@
     module.exports = PostsList;
   ```
 ### 2.3 папка middleware ___(ssr.js)
-```
+```js
   const React = require('react');
   const ReactDOMServer = require('react-dom/server');
 
@@ -212,14 +212,14 @@
 ```
 - передать в файл `app.js`
   `const ssr = require('./middleware/ssr');`
-  ```
+  ```js
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
     app.use(ssr);
   ```
 ### 2.4 папка routes ___(main.routes.js)
 (отдать компоненты на клиента)
-```
+```js
   const router = require('express').Router();
   const Main = require('../components/Main');
 
@@ -230,7 +230,7 @@
   module.exports = router;
 ```
 ### 2.5 app.js ___( app.use('/', Route) )
-  ```
+  ```js
     const mainRoute = require('./routes/main.routes');
     const postsRoute = require('./routes/posts.routes');
     const authRoute = require('./routes/auth.routes');

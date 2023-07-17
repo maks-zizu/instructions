@@ -3,7 +3,7 @@
 - `npm i sequelize sequelize-cli pg pg-hstore` установка библиотеки Sequelize ORM и драйверов для работы с СУБД PostgreSQL (в любом порядке)
 - `.sequelizerc` создание файла конфигурации для sequelize в корне проекта (для изменения путей по умолчанию) в этот файл вставляем:
 
-```
+```js
 const path = require('path')
 module.exports = {
 'config': path.resolve('db','config', 'database.json'),
@@ -15,7 +15,7 @@ module.exports = {
 
 - `npx sequelize init` установка и инициализация CLI-утилиты для работы с Sequelize ORM
 - папка `./db/config/database.json`
-  ```
+  ```json
     "username": "postgres" свое название ,
     "password": "postgres" свое название,
     "database": свое название,
@@ -62,7 +62,7 @@ module.exports = {
 
 - конфигурация файла `.sequelizerc`:
 
-```
+```js
    const path = require('path');
    module.exports = {
     'config': path.resolve('db', 'config', 'database.json'),
@@ -78,7 +78,7 @@ module.exports = {
 
 - установка в модели связи с другой моделью (many-to-one):
 
-```
+```js
    statics associate({МОДЕЛЬ-2}) {
      МОДЕЛЬ-1.belongsTo(МОДЕЛЬ-2, {
      	foreignKey: КЛЮЧ
@@ -88,7 +88,7 @@ module.exports = {
 
 - установка в модели связи с другой моделью (one-to-many):
 
-```
+```js
    statics associate({МОДЕЛЬ-1}) {
      МОДЕЛЬ-1.hasMany(МОДЕЛЬ-2, {
      	foreignKey: КЛЮЧ
@@ -98,7 +98,7 @@ module.exports = {
 
 - установка в модели связи с другой моделью через третью модель (many-to-many), где КЛЮЧ-1 относится к МОДЕЛИ-1, а КЛЮЧ-2 - к МОДЕЛИ-2:
 
-```
+```js
    statics associate({МОДЕЛЬ-2, МОДЕЛЬ-3}) {
      МОДЕЛЬ-1.belongsToMany(МОДЕЛЬ-2, {
      	through МОДЕЛЬ-3,
@@ -110,7 +110,7 @@ module.exports = {
 
 - установка в файле миграции внешнего ключа для связи с другой таблицей
 
-```
+```js
    someId: {
      type: Sequelize.INTEGER,
      allowNull: false,
@@ -122,7 +122,7 @@ module.exports = {
 
 --- запрос на получение сырых данных + указание на конкретные поля + указание на связь с другой таблицей (one-to-many / many-to-one)
 
-```
+```js
    const result = await МОДЕЛЬ-1.findAll({
      raw: true,
      attributes: ['id', 'name']
@@ -132,7 +132,7 @@ module.exports = {
 
 --- запрос на получение сырых данных + указание на конкретные поля + указание на связь с другой таблицей (many-to-many) через КЛЮЧ
 
-```
+```js
    const result = await МОДЕЛЬ-1.findAll({
      raw: true,
      attributes: ['id', 'name']

@@ -1,3 +1,10 @@
+## Тренажеры и документация
+1. https://learngitbranching.js.org/?locale=ru_RU
+2. https://githowto.com/ru
+3. https://git-scm.com/doc
+4. https://training.github.com/downloads/ru/github-git-cheat-sheet/
+
+
 ## Git
 
 - `git checkout dev` -- переключение на dev
